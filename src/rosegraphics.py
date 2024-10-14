@@ -34,8 +34,11 @@ Other key features include:
 
 See the MAIN function below for typical examples of its use.
 
-Authors: David Mutchler, Mark Hays, Michael Wollowswki, Matt Boutell,
-         Chandan Rupakheti, Claude Anderson and their colleagues,
+Authors: David Mutchler, Rachel Krohn, Dave Fisher, Shawn Bohner, Sriram Mohan,
+         Amanda Stouder, Vibha Alangar, Mark Hays, Dave Henthorn, Matt Boutell,
+         Scott McClellan, Yiji Zhang, Mohammed Noureddine, Steve Chenoweth,
+         Claude Anderson, Michael Wollowski, Chandan Rupakheti,
+         Derek Whitley, Curt Clifton, Valerie Galluzzi and their colleagues,
          with thanks to John Zelle for inspiration and hints.
          First completed version: September 2014.
 """
@@ -57,7 +60,7 @@ _master_Tk = None
 # ----------------------------------------------------------------------
 # RoseWindow is the top-level object.  It starts with a single RoseCanvas.
 # ----------------------------------------------------------------------
-class RoseWindow(object):
+class RoseWindow:
     """
     A RoseWindow is a window that pops up when constructed.
     It can have   RoseWidgets   on it and starts by default with
@@ -79,9 +82,15 @@ class RoseWindow(object):
       widgets: the things attached to this window
     """
 
-    def __init__(self, width=400, height=300, title="Rose Graphics",
-                 color="black", canvas_color=None,
-                 make_initial_canvas=True):
+    def __init__(
+        self,
+        width=400,
+        height=300,
+        title="Rose Graphics",
+        color="black",
+        canvas_color=None,
+        make_initial_canvas=True,
+    ):
         """
 
         Pops up a   tkinter.Toplevel   window with (by default)
@@ -104,7 +113,7 @@ class RoseWindow(object):
           :type width: int
           :type height: int
           :type title: str
-          :type color: Color
+          :type color: Color | str
           :type canvas_color: Color
           :type make_initial_canvas: bool
         """
@@ -127,9 +136,9 @@ class RoseWindow(object):
         # --------------------------------------------------------------
         # Has a tkinter.Toplevel, and a tkinter.Canvas on the Toplevel.
         # --------------------------------------------------------------
-        self.toplevel = tkinter.Toplevel(_master_Tk,
-                                         background=color,
-                                         width=width, height=height)
+        self.toplevel = tkinter.Toplevel(
+            _master_Tk, background=color, width=width, height=height
+        )
         self.toplevel.title(title)
         self._is_closed = False
         self.toplevel.protocol("WM_DELETE_WINDOW", self.close)
@@ -142,8 +151,7 @@ class RoseWindow(object):
         self.height = height
 
         if make_initial_canvas:
-            self.initial_canvas = RoseCanvas(self, width, height,
-                                             canvas_color)
+            self.initial_canvas = RoseCanvas(self, width, height, canvas_color)
         else:
             self.initial_canvas = None
 
@@ -163,7 +171,7 @@ class RoseWindow(object):
         self.update()
 
     def close(self):
-        """ Closes this RoseWindow. """
+        """Closes this RoseWindow."""
         if self.toplevel:
             self.toplevel.destroy()
             self.toplevel = None
@@ -202,16 +210,17 @@ class RoseWindow(object):
         Returns an rg.Point that specifies where the user clicked the mouse.
         """
         message = "To exit, click anywhere in this window"
-        click_position = self.continue_on_mouse_click(message=message,
-                                                      close_it=True)
+        click_position = self.continue_on_mouse_click(message=message, close_it=True)
         return click_position
 
-    def continue_on_mouse_click(self,
-                                message="To continue, click anywhere in this window",
-                                x_position=None,
-                                y_position=None,
-                                close_it=False,
-                                erase_it=True):
+    def continue_on_mouse_click(
+        self,
+        message="To continue, click anywhere in this window",
+        x_position=None,
+        y_position=None,
+        close_it=False,
+        erase_it=True,
+    ):
         """
         Displays a message at the bottom center of the window
         and waits for the user to click the mouse, then erases the message.
@@ -267,7 +276,7 @@ class RoseWindow(object):
             if self.mouse.position is not None:
                 break
             self.update()
-            time.sleep(.05)  # allow time for other events to be handled
+            time.sleep(0.05)  # allow time for other events to be handled
 
         click_point = self.mouse.position
         self.mouse.position = None
@@ -294,10 +303,10 @@ class RoseWindow(object):
         return _serialize_shapes(self)
 
 
-class RoseWidget(object):
+class RoseWidget:
     """
-       A Widget is a thing that one can put on a Window,
-       e.g. a Canvas, FortuneTeller, etc.
+    A Widget is a thing that one can put on a Window,
+    e.g. a Canvas, FortuneTeller, etc.
     """
 
     def __init__(self, window):
@@ -316,8 +325,7 @@ class RoseCanvas(RoseWidget):
        upon which one can draw shapes and other Drawable things.
     """
 
-    def __init__(self, window, width=200, height=200,
-                 background_color=0):
+    def __init__(self, window, width=200, height=200, background_color=0):
         super().__init__(window)
 
         RoseCanvas.count = RoseCanvas.count + 1
@@ -333,9 +341,9 @@ class RoseCanvas(RoseWidget):
         #         else:
         #             self.background_color = background_color
 
-        tk_canvas = tkinter.Canvas(window.toplevel,
-                                   width=width, height=height,
-                                   background=background_color)
+        tk_canvas = tkinter.Canvas(
+            window.toplevel, width=width, height=height, background=background_color
+        )
         self._tkinter_canvas = tk_canvas
 
         # FIXME: Automate gridding better.
@@ -360,12 +368,12 @@ class RoseCanvas(RoseWidget):
         options = shape._get_options_for_drawing()
 
         if shape.shape_id_by_canvas[self] is None:
-            shape.shape_id_by_canvas[self] = \
-                shape._method_for_drawing(self._tkinter_canvas, *coordinates)
+            shape.shape_id_by_canvas[self] = shape._method_for_drawing(
+                self._tkinter_canvas, *coordinates
+            )
 
         try:
-            self._tkinter_canvas.coords(shape.shape_id_by_canvas[self],
-                                        *coordinates)
+            self._tkinter_canvas.coords(shape.shape_id_by_canvas[self], *coordinates)
         except tkinter.TclError:
             msg = "Could not place the shape\n"
             msg += "on the given window.\n"
@@ -373,8 +381,7 @@ class RoseCanvas(RoseWidget):
             msg += "that later needed to be rendered again?"
             raise Exception(msg) from None
 
-        self._tkinter_canvas.itemconfigure(shape.shape_id_by_canvas[self],
-                                           options)
+        self._tkinter_canvas.itemconfigure(shape.shape_id_by_canvas[self], options)
         if render_NOW:
             # redraw NOW
             self._window.update()
@@ -404,7 +411,7 @@ class RoseCanvas(RoseWidget):
             self._renderShape(shape)
 
 
-class Mouse(object):
+class Mouse:
 
     def __init__(self):
         self.position = None
@@ -413,7 +420,7 @@ class Mouse(object):
         self.position = Point(event.x, event.y)
 
 
-class Keyboard(object):
+class Keyboard:
 
     def __init__(self):
         self.key_pressed = None
@@ -426,8 +433,8 @@ class __FreezeClass__(type):
     """Prevents class variable assignment."""
 
     def __setattr__(self, name, _ignored):  # last parameter is the value
-        err = "You tried to set the instance variable "" + name + ""\n"
-        err += "   on the CLASS "" + self.__name__ + """
+        err = "You tried to set the instance variable " " + name + " "\n"
+        err += "   on the CLASS " " + self.__name__ + " ""
         err += ", which is not an OBJECT.\n"
         err += "   Did you forget the () after the word "
         err += self.__name__ + ",\n"
@@ -452,8 +459,8 @@ class _Shape(object, metaclass=__FreezeClass__):
     """
 
     def __init__(self, method_for_drawing):
-        """  Arguments:
-          -- the tkinter method for drawing the Shape.
+        """Arguments:
+        -- the tkinter method for drawing the Shape.
         """
         self._method_for_drawing = method_for_drawing
         self.shape_id_by_canvas = {}
@@ -464,13 +471,13 @@ class _Shape(object, metaclass=__FreezeClass__):
         are equal to each other.
         """
         # check before we go deleting keys that may or may not exist
-        if (not isinstance(other, self.__class__)):
+        if not isinstance(other, self.__class__):
             return False
         self_dict = self.__dict__.copy()
         other_dict = other.__dict__.copy()
         del self_dict["shape_id_by_canvas"]
         del other_dict["shape_id_by_canvas"]
-        return (self_dict == other_dict)
+        return self_dict == other_dict
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -501,7 +508,7 @@ class _Shape(object, metaclass=__FreezeClass__):
         rose_canvas._undraw(self)
 
 
-class _ShapeWithOutline(object):
+class _ShapeWithOutline:
     """
     A Shape that has an interior (which can be filled with a color)
     and an outline (which has a color and thickness).
@@ -513,20 +520,20 @@ class _ShapeWithOutline(object):
     Public data attributes:  fill_color, outline_color, outline_thickness.
     Public methods:  _initialize_options.
     """
-    defaults = {"fill_color": None,
-                "outline_color": "black",
-                "outline_thickness": 1}
+
+    defaults = {"fill_color": None, "outline_color": "black", "outline_thickness": 1}
 
     def _initialize_options(self):
         self.fill_color = _ShapeWithOutline.defaults["fill_color"]
         self.outline_color = _ShapeWithOutline.defaults["outline_color"]
-        self.outline_thickness = _ShapeWithOutline.defaults[
-            "outline_thickness"]
+        self.outline_thickness = _ShapeWithOutline.defaults["outline_thickness"]
 
     def _get_options_for_drawing(self):
-        options = {"fill": self.fill_color,
-                   "outline": self.outline_color,
-                   "width": self.outline_thickness}
+        options = {
+            "fill": self.fill_color,
+            "outline": self.outline_color,
+            "width": self.outline_thickness,
+        }
 
         # If a color is None, that means transparent here:
         for option in ("fill", "outline"):
@@ -536,7 +543,7 @@ class _ShapeWithOutline(object):
         return options
 
 
-class _ShapeWithThickness(object):
+class _ShapeWithThickness:
     """
     A Shape that can be (and almost always is) filled with a color
     and has a thickness but no outline.
@@ -547,9 +554,8 @@ class _ShapeWithThickness(object):
     Public data attributes:  color, thickness.
     Public methods:  _initialize_options.
     """
-    defaults = {"color": "black",
-                "thickness": 1,
-                "arrow": None}
+
+    defaults = {"color": "black", "thickness": 1, "arrow": None}
 
     def _initialize_options(self):
         self.color = _ShapeWithThickness.defaults["color"]
@@ -557,9 +563,7 @@ class _ShapeWithThickness(object):
         self.arrow = _ShapeWithThickness.defaults["arrow"]
 
     def _get_options_for_drawing(self):
-        options = {"fill": self.color,
-                   "width": self.thickness,
-                   "arrow": self.arrow}
+        options = {"fill": self.color, "width": self.thickness, "arrow": self.arrow}
 
         # If a color is None, that means "black" here:
         if options["fill"] is None:
@@ -568,7 +572,7 @@ class _ShapeWithThickness(object):
         return options
 
 
-class _ShapeWithText(object):
+class _ShapeWithText:
     """
     A Shape that has text and a font for displaying that text.
 
@@ -580,17 +584,20 @@ class _ShapeWithText(object):
 
     Public methods:  _initialize_options.
     """
+
     # FIXME: Add more to the above docstring.
-    defaults = {"font_family": "helvetica",
-                "font_size": 14,
-                "weight": "normal",
-                "slant": "roman",
-                "underline": 0,
-                "overstrike": 0,
-                "justify": tkinter.CENTER,
-                "text_box_width": None,
-                "text_color": "black",
-                "text": ""}
+    defaults = {
+        "font_family": "helvetica",
+        "font_size": 14,
+        "weight": "normal",
+        "slant": "roman",
+        "underline": 0,
+        "overstrike": 0,
+        "justify": tkinter.CENTER,
+        "text_box_width": None,
+        "text_color": "black",
+        "text": "",
+    }
 
     def _initialize_options(self):
         self.font_family = _ShapeWithText.defaults["font_family"]
@@ -610,17 +617,21 @@ class _ShapeWithText(object):
         slant = "italic" if self.is_italic else "roman"
         underline = 1 if self.is_underline else 0
         overstrike = 1 if self.is_overstrike else 0
-        font = tkinter_font.Font(family=self.font_family,
-                                 size=self.font_size,
-                                 weight=weight,
-                                 slant=slant,
-                                 underline=underline,
-                                 overstrike=overstrike)
+        font = tkinter_font.Font(
+            family=self.font_family,
+            size=self.font_size,
+            weight=weight,
+            slant=slant,
+            underline=underline,
+            overstrike=overstrike,
+        )
 
-        options = {"font": font,
-                   "justify": self.justify,
-                   "fill": self.text_color,
-                   "text": self.text}
+        options = {
+            "font": font,
+            "justify": self.justify,
+            "fill": self.text_color,
+            "text": self.text,
+        }
         if self.text_box_width:
             options["width"] = self.text_box_width
 
@@ -710,9 +721,9 @@ class _RectangularShape(_Shape):
 
     def __init__(self, corner_1, corner_2, method_for_drawing):
         """
-          :type  corner_1:  Point
-          :type  corner_2:  Point
-          :type  method_for_drawing: callable(int, int, int, int) -> int
+        :type  corner_1:  Point
+        :type  corner_2:  Point
+        :type  method_for_drawing: callable(int, int, int, int) -> int
         """
         super().__init__(method_for_drawing)
 
@@ -722,16 +733,21 @@ class _RectangularShape(_Shape):
         self._update_corners()
 
     def __repr__(self):
-        """ Returns a string representation of this shape. """
+        """Returns a string representation of this shape."""
         f_string = ""
         f_string += "{}: corner_1=({}, {}), corner_2=({}, {}),"
         f_string += " fill_color={},"
         f_string += " outline_color={}, outline_thickness={}."
-        return f_string.format(self.__class__.__name__,
-                               self.corner_1.x, self.corner_1.y,
-                               self.corner_2.x, self.corner_2.y,
-                               self.fill_color, self.outline_color,
-                               self.outline_thickness)
+        return f_string.format(
+            self.__class__.__name__,
+            self.corner_1.x,
+            self.corner_1.y,
+            self.corner_2.x,
+            self.corner_2.y,
+            self.fill_color,
+            self.outline_color,
+            self.outline_thickness,
+        )
 
     def move_by(self, dx, dy):
         """
@@ -750,8 +766,7 @@ class _RectangularShape(_Shape):
         """
         Returns a copy of this _RectangularShape.
         """
-        return self.__class__(self.corner_1.clone(),
-                              self.corner_2.clone())
+        return self.__class__(self.corner_1.clone(), self.corner_2.clone())
 
     def get_upper_left_corner(self):
         """
@@ -794,8 +809,10 @@ class _RectangularShape(_Shape):
         Returns a copy of the ** center ** of this _RectanglarShape.
         The returned value is an rg.Point.
         """
-        return Point((self.corner_1.x + self.corner_2.x) / 2,
-                     (self.corner_1.y + self.corner_2.y) / 2)
+        return Point(
+            (self.corner_1.x + self.corner_2.x) / 2,
+            (self.corner_1.y + self.corner_2.y) / 2,
+        )
 
     def get_height(self):
         """
@@ -831,18 +848,20 @@ class _RectangularShape(_Shape):
         self._lower_right_corner = Point(max_x, max_y)
 
     def _get_coordinates_for_drawing(self):
-        return [self.get_upper_left_corner().x,
-                self.get_upper_left_corner().y,
-                self.get_lower_right_corner().x,
-                self.get_lower_right_corner().y]
+        return [
+            self.get_upper_left_corner().x,
+            self.get_upper_left_corner().y,
+            self.get_lower_right_corner().x,
+            self.get_lower_right_corner().y,
+        ]
 
 
 class Arc(_RectangularShape, _ShapeWithOutline):
-    """ Not yet implemented. """
+    """Not yet implemented."""
 
 
 class Bitmap(_Shape):
-    """ Not yet implemented. """
+    """Not yet implemented."""
 
 
 class Circle(_ShapeWithCenter, _ShapeWithOutline):
@@ -900,8 +919,8 @@ class Circle(_ShapeWithCenter, _ShapeWithOutline):
 
     def __init__(self, center, radius):
         """
-          :type  center:  rg.Point
-          :type  radius:  int
+        :type  center:  rg.Point
+        :type  radius:  int
         """
         # The following sets instance variable
         #   self.center
@@ -918,29 +937,29 @@ class Circle(_ShapeWithCenter, _ShapeWithOutline):
         self.radius = radius
 
     def __repr__(self):
-        """ Returns a string representation of this Circle. """
-        # Temporary, just for this collection of problems:
-        return "Circle(center={}, radius={})".format(self.center, self.radius)
+        """Returns a string representation of this Circle."""
         f_string = ""
         f_string += "Circle: center=({}, {}), radius={}, fill_color={}, "
         f_string += "outline_color={}, outline_thickness={}."
-        return f_string.format(self.center.x, self.center.y,
-                               self.radius,
-                               self.fill_color, self.outline_color,
-                               self.outline_thickness)
+        return f_string.format(
+            self.center.x,
+            self.center.y,
+            self.radius,
+            self.fill_color,
+            self.outline_color,
+            self.outline_thickness,
+        )
 
     def clone(self):
-        """ Returns a copy of this Circle. """
+        """Returns a copy of this Circle."""
         return Circle(self.center, self.radius)
 
     def get_bounding_box(self):
         """
         Returns an rg.Rectangle that encloses this Circle.
         """
-        c1 = Point(self.center.x - self.radius,
-                   self.center.y - self.radius)
-        c2 = Point(self.center.x + self.radius,
-                   self.center.y + self.radius)
+        c1 = Point(self.center.x - self.radius, self.center.y - self.radius)
+        c2 = Point(self.center.x + self.radius, self.center.y + self.radius)
         return Rectangle(c1, c2)
 
     def _get_coordinates_for_drawing(self):
@@ -1028,15 +1047,14 @@ class Ellipse(_RectangularShape, _ShapeWithOutline):
 
     def __init__(self, corner_1, corner_2):
         """
-          :type  corner_1:  rg.Point
-          :type  corner_2:  rg.Point
+        :type  corner_1:  rg.Point
+        :type  corner_2:  rg.Point
         """
         # The following sets instance variables
         #   self.corner_1
         #   self.corner_2
         # to clones (copies) of the given rg.Points.
-        super().__init__(corner_1, corner_2,
-                         tkinter.Canvas.create_oval)
+        super().__init__(corner_1, corner_2, tkinter.Canvas.create_oval)
 
         # The following sets default values for:
         #   self.fill_color
@@ -1111,8 +1129,8 @@ class Line(_Shape, _ShapeWithThickness):
 
     def __init__(self, start, end):
         """
-          :type  start:  rg.Point
-          :type  end:    rg.Point
+        :type  start:  rg.Point
+        :type  end:    rg.Point
         """
         super().__init__(tkinter.Canvas.create_line)
 
@@ -1127,16 +1145,22 @@ class Line(_Shape, _ShapeWithThickness):
         self.end = end.clone()
 
     def __repr__(self):
-        """ Returns a string representation of this Line. """
+        """Returns a string representation of this Line."""
         f_string = ""
         f_string += "Line: start=({}, {}), end=({}, {}), color={}, "
         f_string += "thickness={}, arrow={}."
-        return f_string.format(self.start.x, self.start.y,
-                               self.end.x, self.end.y,
-                               self.color, self.thickness, self.arrow)
+        return f_string.format(
+            self.start.x,
+            self.start.y,
+            self.end.x,
+            self.end.y,
+            self.color,
+            self.thickness,
+            self.arrow,
+        )
 
     def clone(self):
-        """ Returns a copy of this Line. """
+        """Returns a copy of this Line."""
         return Line(self.start, self.end)
 
     def move_by(self, dx, dy):
@@ -1156,18 +1180,14 @@ class Line(_Shape, _ShapeWithThickness):
         """
         Returns an rg.Point at the midpoint (center) of this Line.
         """
-        return Point((self.start.x + self.end.x) / 2,
-                     (self.start.y + self.end.y) / 2)
+        return Point((self.start.x + self.end.x) / 2, (self.start.y + self.end.y) / 2)
 
     def _get_coordinates_for_drawing(self):
-        return [self.start.x,
-                self.start.y,
-                self.end.x,
-                self.end.y]
+        return [self.start.x, self.start.y, self.end.x, self.end.y]
 
 
 class Path(_Shape, _ShapeWithThickness):
-    """ Not yet implemented. """
+    """Not yet implemented."""
 
 
 class Point(_Shape, _ShapeWithOutline):
@@ -1222,16 +1242,19 @@ class Point(_Shape, _ShapeWithOutline):
        p.outline_color = "black"
        p.outline_thickness = 1
     """
-    defaults = {"width_for_drawing": 5,
-                "height_for_drawing": 5,
-                "fill_color": "black",
-                "outline_color": "black",
-                "outline_thickness": 1}
+
+    defaults = {
+        "width_for_drawing": 5,
+        "height_for_drawing": 5,
+        "fill_color": "black",
+        "outline_color": "black",
+        "outline_thickness": 1,
+    }
 
     def __init__(self, x, y):
         """
-          :type  x:  float
-          :type  y:  float
+        :type  x:  float
+        :type  y:  float
         """
         super().__init__(tkinter.Canvas.create_oval)
 
@@ -1246,11 +1269,11 @@ class Point(_Shape, _ShapeWithOutline):
         self.height_for_drawing = Point.defaults["height_for_drawing"]
 
     def __repr__(self):
-        """ Returns a string representation of this Point. """
+        """Returns a string representation of this Point."""
         return "Point({:.1f}, {:.1f})".format(self.x, self.y)
 
     def clone(self):
-        """ Returns a copy of this Point. """
+        """Returns a copy of this Point."""
         return Point(self.x, self.y)
 
     def move_by(self, dx, dy):
@@ -1279,10 +1302,12 @@ class Point(_Shape, _ShapeWithOutline):
         Returns an rg.Rectangle that encloses
         this Point (viewing it as a dot).
         """
-        c1 = Point(self.x - self.width_for_drawing / 2,
-                   self.y - self.width_for_drawing / 2)
-        c2 = Point(self.x + self.height_for_drawing / 2,
-                   self.y + self.height_for_drawing / 2)
+        c1 = Point(
+            self.x - self.width_for_drawing / 2, self.y - self.width_for_drawing / 2
+        )
+        c2 = Point(
+            self.x + self.height_for_drawing / 2, self.y + self.height_for_drawing / 2
+        )
         return Rectangle(c1, c2)
 
     def _get_coordinates_for_drawing(self):
@@ -1290,7 +1315,7 @@ class Point(_Shape, _ShapeWithOutline):
 
 
 class Polygon(_Shape, _ShapeWithOutline):
-    """ Not yet implemented. """
+    """Not yet implemented."""
 
 
 class Rectangle(_RectangularShape, _ShapeWithOutline):
@@ -1370,15 +1395,14 @@ class Rectangle(_RectangularShape, _ShapeWithOutline):
 
     def __init__(self, corner_1, corner_2):
         """
-         :type  corner_1:  rg.Point
-         :type  corner_2:  rg.Point
+        :type  corner_1:  rg.Point
+        :type  corner_2:  rg.Point
         """
         # The following sets instance variables
         #   self.corner_1
         #   self.corner_2
         # to clones (copies) of the given rg.Points.
-        super().__init__(corner_1, corner_2,
-                         tkinter.Canvas.create_rectangle)
+        super().__init__(corner_1, corner_2, tkinter.Canvas.create_rectangle)
 
         # The following sets default values for:
         #   self.fill_color
@@ -1394,7 +1418,7 @@ class Rectangle(_RectangularShape, _ShapeWithOutline):
 
 
 class RoundedRectangle(_RectangularShape, _ShapeWithOutline):
-    """ Not yet implemented. """
+    """Not yet implemented."""
 
 
 class Square(_ShapeWithCenter, _ShapeWithOutline):
@@ -1454,8 +1478,8 @@ class Square(_ShapeWithCenter, _ShapeWithOutline):
 
     def __init__(self, center, length_of_each_side):
         """
-          :type  center:  rg.Point
-          :type  length_of_each_side:  int
+        :type  center:  rg.Point
+        :type  length_of_each_side:  int
         """
         # The following sets instance variable
         #   self.center
@@ -1472,27 +1496,35 @@ class Square(_ShapeWithCenter, _ShapeWithOutline):
         self.length_of_each_side = length_of_each_side
 
     def __repr__(self):
-        """ Returns a string representation of this Square. """
+        """Returns a string representation of this Square."""
         f_string = ""
         f_string += "Square: center=({}, {}), side-lengths={}, "
         f_string += "fill_color={}, outline_color={}, outline_thickness={}."
-        return f_string.format(self.center.x, self.center.y,
-                               self.length_of_each_side,
-                               self.fill_color, self.outline_color,
-                               self.outline_thickness)
+        return f_string.format(
+            self.center.x,
+            self.center.y,
+            self.length_of_each_side,
+            self.fill_color,
+            self.outline_color,
+            self.outline_thickness,
+        )
 
     def clone(self):
-        """ Returns a copy of this Square. """
+        """Returns a copy of this Square."""
         return Square(self.center, self.length_of_each_side)
 
     def get_bounding_box(self):
         """
         Returns a rg.Rectangle with the same corners as this Square.
         """
-        c1 = Point(self.center.x - self.length_of_each_side / 2,
-                   self.center.y - self.length_of_each_side / 2)
-        c2 = Point(self.center.x + self.length_of_each_side / 2,
-                   self.center.y + self.length_of_each_side / 2)
+        c1 = Point(
+            self.center.x - self.length_of_each_side / 2,
+            self.center.y - self.length_of_each_side / 2,
+        )
+        c2 = Point(
+            self.center.x + self.length_of_each_side / 2,
+            self.center.y + self.length_of_each_side / 2,
+        )
         return Rectangle(c1, c2)
 
     def _get_coordinates_for_drawing(self):
@@ -1538,8 +1570,7 @@ class Text(_ShapeWithCenter, _ShapeWithText):
         # FIXME: Allow __init__ to set the options.
 
     def __repr__(self):
-        return "Text displaying '{}' at position {}".format(self.text,
-                                                            self.center)
+        return "Text displaying '{}' at position {}".format(self.text, self.center)
 
     # FIXME: Have repr include characteristics??
     # FIXME: Do a clone?
@@ -1566,16 +1597,18 @@ class Text(_ShapeWithCenter, _ShapeWithText):
 
 # CONSIDER: Are these right for here?
 class Button(_Shape):
-    """ Not yet implemented. """
+    """Not yet implemented."""
+
     default_options = {}
 
 
 class Entry(_Shape):
-    """ Not yet implemented. """
+    """Not yet implemented."""
+
     default_options = {}
 
 
-class Color(object):
+class Color:
     """
     A Color represents a  fill or outline color created from custom
     amounts of red, green, and blue light. The arguments are:
@@ -1598,17 +1631,23 @@ class Color(object):
 
 # begin STUB code for testing
 
+
 class _RoseWindowStub(RoseWindow):
 
-    def __init__(self, width=400, height=300, title="Rose Graphics",
-                 color="black", canvas_color=None,
-                 make_initial_canvas=True):
+    def __init__(
+        self,
+        width=400,
+        height=300,
+        title="Rose Graphics",
+        color="black",
+        canvas_color=None,
+        make_initial_canvas=True,
+    ):
         canvas_color = "white"  # FIXME
         self._is_closed = False
         self.width = width
         self.height = height
-        self.initial_canvas = _RoseCanvasStub(
-            self, width, height, canvas_color)
+        self.initial_canvas = _RoseCanvasStub(self, width, height, canvas_color)
 
     def render(self, seconds_to_pause=None):
         pass
@@ -1619,13 +1658,14 @@ class _RoseWindowStub(RoseWindow):
     def close_on_mouse_click(self):
         return None
 
-    def continue_on_mouse_click(self,
-                                message=("To continue, " +
-                                         "click anywhere in this window"),
-                                x_position=None,
-                                y_position=None,
-                                close_it=False,
-                                erase_it=True):
+    def continue_on_mouse_click(
+        self,
+        message=("To continue, " + "click anywhere in this window"),
+        x_position=None,
+        y_position=None,
+        close_it=False,
+        erase_it=True,
+    ):
         return None
 
     def _serialize_shapes(self):
@@ -1651,7 +1691,7 @@ class _RoseCanvasStub(RoseCanvas):
         pass
 
 
-class TurtleWindow(object):
+class TurtleWindow:
 
     def __init__(self):
         self._screen = turtle.Screen()
@@ -1676,7 +1716,7 @@ class TurtleWindow(object):
         # turtle.TurtleScreen._RUNNING = True
 
     def display_message(self, message, point):
-        """ Displays the given message at the given Point. """
+        """Displays the given message at the given Point."""
         self._screen._canvas.create_text(point.x, point.y, text=message)
 
     def delay(self, milliseconds=None):
@@ -1693,7 +1733,7 @@ class ShapesWindow(RoseWindow):
     pass
 
 
-class SimpleTurtle(object):
+class SimpleTurtle:
     """
     A SimpleTurtle is a Turtle with restricted (simpler) functionality.
     It can move forward/backward (units are pixels), turn (spin)
@@ -1967,14 +2007,14 @@ class SimpleTurtle(object):
         self._turtle.end_fill()
 
     def clear(self):
-        """ Not yet implemented. """
+        """Not yet implemented."""
 
     def clone(self):
-        """ Not yet implemented. """
+        """Not yet implemented."""
         pass
 
     def write_text(self):
-        """ Not yet implemented. """
+        """Not yet implemented."""
         pass
 
     def _update_real_turtle(self):
@@ -1984,7 +2024,7 @@ class SimpleTurtle(object):
         self._turtle.speed(self.speed)
 
 
-class Pen(object):
+class Pen:
     """
     A Pen has a color and thickness.
     SimpleTurtles use a Pen for drawing lines.
@@ -2008,7 +2048,7 @@ class Pen(object):
         self.color = color
 
 
-class PaintBucket(object):
+class PaintBucket:
     """
     A PaintBucket has a color.
     SimpleTurtles use a PaintBucket for filling shapes with color.
@@ -2034,12 +2074,13 @@ class PaintBucket(object):
 # students when they pass arguments that are not of the expected type.
 # ----------------------------------------------------------------------
 class WrongTypeException(Exception):
-    """ Not yet implemented. """
+    """Not yet implemented."""
+
     pass
 
 
 def check_types(pairs):
-    """ Not yet implemented fully. """
+    """Not yet implemented fully."""
     for pair in pairs:
         value = pair[0]
         expected_type = pair[1]
@@ -2053,7 +2094,7 @@ def check_types(pairs):
 
 
 def _serialize_shapes(self):
-    """ Returns a list of strings representing the shapes in sorted order. """
+    """Returns a list of strings representing the shapes in sorted order."""
     # Idea: dump all the stats on all shapes,
     # then return a sorted list for easy comparison.
     # Problem: the order in which keys appear in dictionaries is random!
@@ -2073,6 +2114,7 @@ def _serialize_shapes(self):
             result[-1].append(str(key) + ":" + str(shape[key]))
         result[-1] = str(result[-1])
     return "\n".join(sorted(result))
+
 
 # FIXME (errors):
 #  -- clone() does not really make a copy; it just makes a new one

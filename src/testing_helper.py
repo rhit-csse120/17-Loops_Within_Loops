@@ -24,15 +24,16 @@ PRECISION = 3  # Round floats to 3 decimal places when comparing vs expected
 # Set  USE_COLORING  to False to use the "old" way of printing:
 USE_COLORING = True
 
-COLOR_CODES = {"black": 20,
-               "red": 31,
-               "green": 32,
-               "yellow": 33,
-               "blue": 34,
-               "magenta": 35,
-               "cyan": 36,
-               "white": 37
-               }
+COLOR_CODES = {
+    "black": 20,
+    "red": 31,
+    "green": 32,
+    "yellow": 33,
+    "blue": 34,
+    "magenta": 35,
+    "cyan": 36,
+    "white": 37,
+}
 
 
 def print_function_call_of_test(arguments, test_results, format_string):
@@ -44,8 +45,9 @@ def print_function_call_of_test(arguments, test_results, format_string):
     print(format_string.format(*arguments))
 
 
-def print_expected_result_of_test(arguments, expected, test_results,
-                                  format_string, suffix=""):
+def print_expected_result_of_test(
+    arguments, expected, test_results, format_string, suffix=""
+):
     print_function_call_of_test(arguments, test_results, format_string)
     print("  Expected:", expected, suffix)
 
@@ -83,8 +85,7 @@ def print_summary_of_test_results(test_results):
     message_for_passed = "\n*** PASSED all {} tests! Good! ***"
     message_for_failed = "\n*** FAILED {} tests! ***"
     if passed_tests == number_of_tests:
-        print_colored(message_for_passed.format(number_of_tests),
-                      color="blue")
+        print_colored(message_for_passed.format(number_of_tests), color="blue")
     else:
         print_colored(message_for_failed.format(failed_tests), color="red")
 

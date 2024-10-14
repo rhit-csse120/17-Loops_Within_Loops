@@ -2,10 +2,18 @@
 This project demonstrates NESTED LOOPS (i.e., loops within loops)
 in the context of PRINTING on the CONSOLE.
 
-Authors: David Mutchler, Vibha Alangar, Matt Boutell, Dave Fisher,
-         Mark Hays, Amanda Stouder, Derek Whitley, their colleagues,
-         many others before them, and now PUT_YOUR_NAME_HERE.
+Authors: David Mutchler, Rachel Krohn, Dave Fisher, Shawn Bohner, Sriram Mohan,
+         Amanda Stouder, Vibha Alangar, Mark Hays, Dave Henthorn, Matt Boutell,
+         Scott McClellan, Yiji Zhang, Mohammed Noureddine, Steve Chenoweth,
+         Claude Anderson, Michael Wollowski, Chandan Rupakheti,
+         Derek Whitley, Curt Clifton, Valerie Galluzzi, their colleagues and
+         PUT_YOUR_NAME_HERE.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+
+"""
+Academic Integrity: I got help on this module from:
+         PUT_HERE_THE_NAMES_OF_PEOPLE_WHO_HELPED_YOU_ON_THIS_MODULE_(IF_ANY).
+"""  # TODO: If you got help from anyone on this module, list their names here.
 
 ###############################################################################
 # TODO: 2.  Read and run this program, examining the code and the output.
@@ -27,14 +35,14 @@ Authors: David Mutchler, Vibha Alangar, Matt Boutell, Dave Fisher,
 
 
 def main():
-    """ Calls the other functions to demonstrate them. """
+    """Calls the other functions to demonstrate them."""
     example_1(4, 7)
     example_2(6)
     example_3(5, 9)
 
 
 def example_1(n, m):
-    """ Prints the loop variables of a loop within a loop. """
+    """Prints the loop variables of a loop within a loop."""
     # -------------------------------------------------------------------------
     # Classic nested-loops, type 1:
     #    The number of inner-loop iterations does NOT depend
@@ -52,7 +60,7 @@ def example_1(n, m):
 
 
 def example_2(n):
-    """ Prints the loop variables of a loop within a loop. """
+    """Prints the loop variables of a loop within a loop."""
     # -------------------------------------------------------------------------
     # Classic nested-loops, type 2:
     #    The number of inner-loop iterations DOES depend
@@ -70,7 +78,7 @@ def example_2(n):
 
 
 def example_3(n, m):
-    """ Prints the loop variables of a loop within a loop. """
+    """Prints the loop variables of a loop within a loop."""
     # -------------------------------------------------------------------------
     # Same as classic example 1, but shows how to have successive PRINT
     # statements cause output on the SAME line, and then go to the NEXT line.

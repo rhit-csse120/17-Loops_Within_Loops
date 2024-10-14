@@ -2,10 +2,18 @@
 This project demonstrates NESTED LOOPS (i.e., loops within loops)
 in the context of SEQUENCES OF SUB-SEQUENCES.
 
-Authors: David Mutchler, Vibha Alangar, Matt Boutell, Dave Fisher,
-         Mark Hays, Amanda Stouder, Derek Whitley, their colleagues,
-         many others before them, and now PUT_YOUR_NAME_HERE.
+Authors: David Mutchler, Rachel Krohn, Dave Fisher, Shawn Bohner, Sriram Mohan,
+         Amanda Stouder, Vibha Alangar, Mark Hays, Dave Henthorn, Matt Boutell,
+         Scott McClellan, Yiji Zhang, Mohammed Noureddine, Steve Chenoweth,
+         Claude Anderson, Michael Wollowski, Chandan Rupakheti,
+         Derek Whitley, Curt Clifton, Valerie Galluzzi, their colleagues and
+         PUT_YOUR_NAME_HERE.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+
+"""
+Academic Integrity: I got help on this module from:
+         PUT_HERE_THE_NAMES_OF_PEOPLE_WHO_HELPED_YOU_ON_THIS_MODULE_(IF_ANY).
+"""  # TODO: If you got help from anyone on this module, list their names here.
 
 ###############################################################################
 # TODO: 2.  Read and run this program, examining the code and the output.
@@ -32,16 +40,16 @@ import testing_helper
 
 
 def main():
-    """ Calls the other functions to demonstrate them. """
-    list_of_lists = [[4, 0, 100],
-                     [1, 2, 3],
-                     [100, 100, 20, 30, 20, 1]]
+    """Calls the other functions to demonstrate them."""
+    list_of_lists = [[4, 0, 100], [1, 2, 3], [100, 100, 20, 30, 20, 1]]
 
-    tuple_of_lists = ([10, 5],
-                      [5, 10, 5, 8, 20],
-                      ["a", "b", "c", 8],
-                      ["the", "rain", "in spain", 5, "falls"],
-                      ["mainly on the plain."])
+    tuple_of_lists = (
+        [10, 5],
+        [5, 10, 5, 8, 20],
+        ["a", "b", "c", 8],
+        ["the", "rain", "in spain", 5, "falls"],
+        ["mainly on the plain."],
+    )
 
     list_of_strings = ["hello", "how", "are", "you?"]
 
@@ -82,7 +90,7 @@ def main():
 
 
 def classic_example_1(sequence_of_sequences):
-    """ Prints the items in the sequence of sequences. """
+    """Prints the items in the sequence of sequences."""
     print()
     print("------------------------------------------------")
     print("Classic example 1 on this sequence of sequences:")
@@ -98,7 +106,7 @@ def classic_example_1(sequence_of_sequences):
 
 
 def classic_example_2(sequence_of_sequences):
-    """ Same as preceding example but using [][] notation. """
+    """Same as preceding example but using [][] notation."""
     print()
     print("------------------------------------------------")
     print("Classic example 2 on this sequence of sequences:")
@@ -112,8 +120,7 @@ def classic_example_2(sequence_of_sequences):
         print("  Ending inner sequence at outer index", k)
 
 
-def classic_example_3(sequence_of_sequences,
-                      what_to_count, what_to_mutate_into):
+def classic_example_3(sequence_of_sequences, what_to_count, what_to_mutate_into):
     """
     Shows counting and mutating in a sequence of LISTS.
       -- Counts and returns the number of "what_to_count" occurrences.

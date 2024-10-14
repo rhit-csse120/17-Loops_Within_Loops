@@ -2,17 +2,25 @@
 This project lets you practice NESTED LOOPS (i.e., loops within loops)
 in the context of SEQUENCES OF SUB-SEQUENCES.
 
-Authors: David Mutchler, Vibha Alangar, Dave Fisher, Matt Boutell, Mark Hays,
-         Mohammed Noureddine, Sana Ebrahimi, Sriram Mohan, their colleagues and
+Authors: David Mutchler, Rachel Krohn, Dave Fisher, Shawn Bohner, Sriram Mohan,
+         Amanda Stouder, Vibha Alangar, Mark Hays, Dave Henthorn, Matt Boutell,
+         Scott McClellan, Yiji Zhang, Mohammed Noureddine, Steve Chenoweth,
+         Claude Anderson, Michael Wollowski, Chandan Rupakheti,
+         Derek Whitley, Curt Clifton, Valerie Galluzzi, their colleagues and
          PUT_YOUR_NAME_HERE.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+
+"""
+Academic Integrity: I got help on this module from:
+         PUT_HERE_THE_NAMES_OF_PEOPLE_WHO_HELPED_YOU_ON_THIS_MODULE_(IF_ANY).
+"""  # TODO: If you got help from anyone on this module, list their names here.
 
 import time
 import testing_helper
 
 
 def main():
-    """ Calls the other functions to test them. """
+    """Calls the other functions to test them."""
     print("-----------------------------------------------")
     print("Un-comment each of the following TEST functions")
     print("as you implement the functions that they test.")
@@ -24,7 +32,7 @@ def main():
 
 
 def run_test_multiply_numbers():
-    """ Tests the   multiply_numbers   function. """
+    """Tests the   multiply_numbers   function."""
     # -------------------------------------------------------------------------
     # We have supplied tests for you. No additional tests are required,
     # although you are welcome to supply more tests if you choose.
@@ -39,118 +47,104 @@ def run_test_multiply_numbers():
 
     # -------------------------------------------------------------------------
     # Test 1: Tests whether the function MUTATES the sub-lists correctly.
-    seq_of_lists = ([4, 2, 1],
-                    [8, 0],
-                    [1, 2, 3, 4, 5],
-                    [],
-                    [101])
+    seq_of_lists = ([4, 2, 1], [8, 0], [1, 2, 3, 4, 5], [], [101])
     # After the function call, seq_of_lists should be as follows:
-    seq_of_lists_after_multiply = ([4, 2, 1],
-                                   [16, 0],
-                                   [3, 6, 9, 12, 15],
-                                   [],
-                                   [505])
-    print_expected_result_of_test([seq_of_lists],
-                                  seq_of_lists_after_multiply,
-                                  test_results, format_string)
+    seq_of_lists_after_multiply = ([4, 2, 1], [16, 0], [3, 6, 9, 12, 15], [], [505])
+    print_expected_result_of_test(
+        [seq_of_lists], seq_of_lists_after_multiply, test_results, format_string
+    )
     actual = multiply_numbers(seq_of_lists)
-    print_actual_result_of_test(seq_of_lists_after_multiply, seq_of_lists,
-                                test_results)
+    print_actual_result_of_test(seq_of_lists_after_multiply, seq_of_lists, test_results)
     print("The above is for  seq_of_lists  (whose lists should be MUTATED.")
 
     # Test 2: (a continuation of Test 1)
     #   Tests whether the function does not RETURN a value (i.e., returns None)
-    print_expected_result_of_test([seq_of_lists], None,
-                                  test_results, format_string)
+    print_expected_result_of_test([seq_of_lists], None, test_results, format_string)
     print_actual_result_of_test(None, actual, test_results)
     print("The above is for the RETURNED VALUE, which should be")
-    print("the constant None, NOT the STRING \"None\".")
+    print('the constant None, NOT the STRING "None".')
     # -------------------------------------------------------------------------
 
     # -------------------------------------------------------------------------
     # Test 3: Tests whether the function MUTATES the sub-lists correctly.
-    seq_of_lists = ([4, 0, 100],
-                    [1, 2, 3],
-                    [100, 100, 20, 30])
+    seq_of_lists = ([4, 0, 100], [1, 2, 3], [100, 100, 20, 30])
     # After the function call, seq_of_lists should be as follows:
-    seq_of_lists_after_multiply = ([4, 0, 100],
-                                   [2, 4, 6],
-                                   [300, 300, 60, 90])
-    print_expected_result_of_test([seq_of_lists],
-                                  seq_of_lists_after_multiply,
-                                  test_results, format_string)
+    seq_of_lists_after_multiply = ([4, 0, 100], [2, 4, 6], [300, 300, 60, 90])
+    print_expected_result_of_test(
+        [seq_of_lists], seq_of_lists_after_multiply, test_results, format_string
+    )
     actual = multiply_numbers(seq_of_lists)
-    print_actual_result_of_test(seq_of_lists_after_multiply, seq_of_lists,
-                                test_results)
+    print_actual_result_of_test(seq_of_lists_after_multiply, seq_of_lists, test_results)
     print("The above is for  seq_of_lists  (whose lists should be MUTATED.")
 
     # Test 4: (a continuation of Test 3)
     #   Tests whether the function does not RETURN a value (i.e., returns None)
-    print_expected_result_of_test([seq_of_lists], None,
-                                  test_results, format_string)
+    print_expected_result_of_test([seq_of_lists], None, test_results, format_string)
     print_actual_result_of_test(None, actual, test_results)
     print("The above is for the RETURNED VALUE, which should be")
-    print("the constant None, NOT the STRING \"None\".")
+    print('the constant None, NOT the STRING "None".')
     # -------------------------------------------------------------------------
 
     # -------------------------------------------------------------------------
     # Test 5: Tests whether the function MUTATES the sub-lists correctly.
-    seq_of_lists = (["the ", "rain "],
-                    ["in spain ", "falls ", "mainly on the "],
-                    ["plain."])
+    seq_of_lists = (
+        ["the ", "rain "],
+        ["in spain ", "falls ", "mainly on the "],
+        ["plain."],
+    )
     # After the function call, seq_of_lists should be as follows:
-    seq_of_lists_after_multiply = (["the ", "rain "],
-                                   ["in spain in spain ",
-                                    "falls falls ",
-                                    "mainly on the mainly on the "],
-                                   ["plain.plain.plain."])
-    print_expected_result_of_test([seq_of_lists],
-                                  seq_of_lists_after_multiply,
-                                  test_results, format_string)
+    seq_of_lists_after_multiply = (
+        ["the ", "rain "],
+        ["in spain in spain ", "falls falls ", "mainly on the mainly on the "],
+        ["plain.plain.plain."],
+    )
+    print_expected_result_of_test(
+        [seq_of_lists], seq_of_lists_after_multiply, test_results, format_string
+    )
     actual = multiply_numbers(seq_of_lists)
-    print_actual_result_of_test(seq_of_lists_after_multiply, seq_of_lists,
-                                test_results)
+    print_actual_result_of_test(seq_of_lists_after_multiply, seq_of_lists, test_results)
     print("The above is for  seq_of_lists  (whose lists should be MUTATED.")
 
     # Test 6: (a continuation of Test 5)
     #   Tests whether the function does not RETURN a value (i.e., returns None)
-    print_expected_result_of_test([seq_of_lists], None,
-                                  test_results, format_string)
+    print_expected_result_of_test([seq_of_lists], None, test_results, format_string)
     print_actual_result_of_test(None, actual, test_results)
     print("The above is for the RETURNED VALUE, which should be")
-    print("the constant None, NOT the STRING \"None\".")
+    print('the constant None, NOT the STRING "None".')
     # -------------------------------------------------------------------------
 
     # -------------------------------------------------------------------------
     # Test 7: Tests whether the function MUTATES the sub-lists correctly.
-    seq_of_lists = [[10, 5],
-                    [10, 5, 5, 8, 20],
-                    ["a", "b", "c"],
-                    ["d"],
-                    ["e", "f"],
-                    [100, 0, "z"]]
+    seq_of_lists = [
+        [10, 5],
+        [10, 5, 5, 8, 20],
+        ["a", "b", "c"],
+        ["d"],
+        ["e", "f"],
+        [100, 0, "z"],
+    ]
     # After the function call, seq_of_lists should be as follows:
-    seq_of_lists_after_multiply = [[10, 5],
-                                   [20, 10, 10, 16, 40],
-                                   ["aaa", "bbb", "ccc"],
-                                   ["dddd"],
-                                   ["eeeee", "fffff"],
-                                   [600, 0, "zzzzzz"]]
-    print_expected_result_of_test([seq_of_lists],
-                                  seq_of_lists_after_multiply,
-                                  test_results, format_string)
+    seq_of_lists_after_multiply = [
+        [10, 5],
+        [20, 10, 10, 16, 40],
+        ["aaa", "bbb", "ccc"],
+        ["dddd"],
+        ["eeeee", "fffff"],
+        [600, 0, "zzzzzz"],
+    ]
+    print_expected_result_of_test(
+        [seq_of_lists], seq_of_lists_after_multiply, test_results, format_string
+    )
     actual = multiply_numbers(seq_of_lists)
-    print_actual_result_of_test(seq_of_lists_after_multiply, seq_of_lists,
-                                test_results)
+    print_actual_result_of_test(seq_of_lists_after_multiply, seq_of_lists, test_results)
     print("The above is for  seq_of_lists  (whose lists should be MUTATED.")
 
     # Test 8: (a continuation of Test 7)
     #   Tests whether the function does not RETURN a value (i.e., returns None)
-    print_expected_result_of_test([seq_of_lists], None,
-                                  test_results, format_string)
+    print_expected_result_of_test([seq_of_lists], None, test_results, format_string)
     print_actual_result_of_test(None, actual, test_results)
     print("The above is for the RETURNED VALUE, which should be")
-    print("the constant None, NOT the STRING \"None\".")
+    print('the constant None, NOT the STRING "None".')
     # -------------------------------------------------------------------------
 
     # SUMMARY of test results:
@@ -196,7 +190,7 @@ def multiply_numbers(sequence_of_lists):
 
 
 def run_test_print_characters():
-    """ Tests the    print_characters    function. """
+    """Tests the    print_characters    function."""
     # -------------------------------------------------------------------------
     # We have supplied tests for you. No additional tests are required,
     # although you are welcome to supply more tests if you choose.
@@ -258,7 +252,7 @@ def print_characters(sequence_of_strings):
 
 
 def run_test_print_characters_slanted():
-    """ Tests the    print_characters_slanted    function. """
+    """Tests the    print_characters_slanted    function."""
     # -------------------------------------------------------------------------
     # We have supplied tests for you. No additional tests are required,
     # although you are welcome to supply more tests if you choose.
@@ -339,17 +333,19 @@ def print_characters_slanted(sequence_of_strings):
 # Do NOT change it.  You do NOT have to do anything with it.
 ###############################################################################
 
-def print_expected_result_of_test(arguments, expected,
-                                  test_results, format_string, suffix=""):
-    testing_helper.print_expected_result_of_test(arguments, expected,
-                                                 test_results, format_string,
-                                                 suffix)
+
+def print_expected_result_of_test(
+    arguments, expected, test_results, format_string, suffix=""
+):
+    testing_helper.print_expected_result_of_test(
+        arguments, expected, test_results, format_string, suffix
+    )
 
 
-def print_actual_result_of_test(expected, actual, test_results,
-                                precision=None):
-    testing_helper.print_actual_result_of_test(expected, actual,
-                                               test_results, precision)
+def print_actual_result_of_test(expected, actual, test_results, precision=None):
+    testing_helper.print_actual_result_of_test(
+        expected, actual, test_results, precision
+    )
 
 
 def print_summary_of_test_results(test_results):

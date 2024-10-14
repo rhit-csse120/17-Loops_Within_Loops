@@ -2,14 +2,22 @@
 This project lets you practice NESTED LOOPS (i.e., loops within loops)
 in the context of PRINTING on the CONSOLE.
 
-Authors: David Mutchler, Vibha Alangar, Dave Fisher, Matt Boutell, Mark Hays,
-         Mohammed Noureddine, Sana Ebrahimi, Sriram Mohan, their colleagues and
+Authors: David Mutchler, Rachel Krohn, Dave Fisher, Shawn Bohner, Sriram Mohan,
+         Amanda Stouder, Vibha Alangar, Mark Hays, Dave Henthorn, Matt Boutell,
+         Scott McClellan, Yiji Zhang, Mohammed Noureddine, Steve Chenoweth,
+         Claude Anderson, Michael Wollowski, Chandan Rupakheti,
+         Derek Whitley, Curt Clifton, Valerie Galluzzi, their colleagues and
          PUT_YOUR_NAME_HERE.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
+"""
+Academic Integrity: I got help on this module from:
+         PUT_HERE_THE_NAMES_OF_PEOPLE_WHO_HELPED_YOU_ON_THIS_MODULE_(IF_ANY).
+"""  # TODO: If you got help from anyone on this module, list their names here.
+
 
 def main():
-    """ Calls the other functions to test them. """
+    """Calls the other functions to test them."""
     print("-----------------------------------------------")
     print("Un-comment each of the following TEST functions")
     print("as you implement the functions that they test.")
@@ -21,7 +29,7 @@ def main():
 
 
 def run_test_rectangle_of_stars():
-    """ Tests the    rectangle_of_stars    function. """
+    """Tests the    rectangle_of_stars    function."""
     print()
     print("--------------------------------------------")
     print("Testing the   RECTANGLE_OF_STARS   function:")
@@ -67,7 +75,7 @@ def rectangle_of_stars(r, c):
 
 
 def run_test_triangle_of_stars():
-    """ Tests the    triangle_of_stars    function. """
+    """Tests the    triangle_of_stars    function."""
     print()
     print("-------------------------------------------")
     print("Testing the   TRIANGLE_OF_STARS   function:")
@@ -118,7 +126,7 @@ def triangle_of_stars(r):
 
 
 def run_test_decreasing_exclamation_marks():
-    """ Tests the    decreasing_exclamation_marks    function. """
+    """Tests the    decreasing_exclamation_marks    function."""
     print()
     print("----------------------------------------------------------")
     print("Testing the   DECREASING_EXCLAMATION_MARKS   function:")
